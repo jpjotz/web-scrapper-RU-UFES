@@ -4,8 +4,8 @@ const urlBase = "https://restaurante.saomateus.ufes.br/cardapio";
 const data = new Date();
 const dataFormatada = data.toISOString().split('T')[0];
 
-async function pegarHtml() {
-    const response = await fetch(`${urlBase}/${dataFormatada}`);
+async function pegarHtml(data) {
+    const response = await fetch(`${urlBase}/${data}`);
     const html = await response.text();
     const $ = cheerio.load(html);
 
@@ -42,7 +42,5 @@ async function pegarHtml() {
 
     return { titulos, cardapio, comidas, comidasAlmoco: comidasAlmocoFinal, comidasJantar: comidasJantarFinal };
 }
-
-pegarHtml();
 
 module.exports = pegarHtml;

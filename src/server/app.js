@@ -2,6 +2,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 const express = require('express');
 const app = express();
 const pegarHtml = require('../services/scrapperService');
+const PORT = process.env.PORT || 3000;
 
 app.get('/', async (req, res) => {
     try {
@@ -44,7 +45,8 @@ app.get('/', async (req, res) => {
 
 app.get('/cafe', async (req, res) => {
     try {
-        const dados = await pegarHtml();
+        const data = req.query.data || new Date().toISOString().split('T')[0];
+        const dados = await pegarHtml(data);
         res.json({
             cafe: {
                 desjejum: dados.comidas[0],
@@ -62,7 +64,8 @@ app.get('/cafe', async (req, res) => {
 
 app.get('/almoco', async (req, res) => {
     try {
-        const dados = await pegarHtml();
+        const data = req.query.data || new Date().toISOString().split('T')[0];
+        const dados = await pegarHtml(data);
         res.json({
             almoco: {
                 prato_principal: dados.comidasAlmoco[0],
@@ -81,7 +84,8 @@ app.get('/almoco', async (req, res) => {
 
 app.get('/jantar', async (req, res) => {
     try {
-        const dados = await pegarHtml();
+        const data = req.query.data || new Date().toISOString().split('T')[0];
+        const dados = await pegarHtml(data);
         res.json({
             jantar: {
                 prato_principal: dados.comidasJantar[0],
@@ -98,6 +102,6 @@ app.get('/jantar', async (req, res) => {
     }
 })
 
-app.listen(3000, () => {
+app.listen(PORT, () => {
     console.log("Servidor rodando na porta 3000");
 })
