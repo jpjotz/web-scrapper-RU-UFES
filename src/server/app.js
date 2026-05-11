@@ -4,9 +4,11 @@ const app = express();
 const pegarHtml = require('../services/scrapperService');
 const PORT = process.env.PORT || 3000;
 
-app.get('/', async (req, res) => {
+app.get('/:data', async (req, res) => {
+    const data = req.params.data
+
     try {
-        const dados = await pegarHtml();
+        const dados = await pegarHtml(data);
         res.json({
             tipos: dados.titulos,
             cafe: {
